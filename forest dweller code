@@ -1,0 +1,119 @@
+#include <kipr/wombat.h>
+//DECLARE VARIABLES
+int rmotor = 0;
+int lmotor = 3;
+int speed = 65;
+int nspeed = -65;
+int pause = 1000;
+int pause2 = 1750;
+int raturn = 1477;
+int fturn = 2954;
+int shortpause = 100;
+int counter = 0;
+
+//declare function
+void forward();
+void turnleft();
+void turnright();
+void backward();
+void evasive();
+
+int main()
+{
+    
+    shut_down_in(300.0);
+	while(1)
+    {
+        
+      
+      forward();
+       //always happening
+        
+  
+    if(digital(0)==1)
+    {
+        backward();
+    turnleft();
+        counter = counter + 1;
+        
+    }
+        else
+        {
+            forward();
+        }
+    
+    if(digital(9)==1)
+    {
+        backward();
+        turnright();
+        counter = counter + 1;
+    }
+    
+        else
+        {
+            forward();
+        }
+        
+    if(counter == 5)
+    {
+                        // random function
+        evasive();
+        counter = 0 ;
+        
+       
+    }
+        else
+        {
+        	forward();
+        }
+    }
+    
+    
+    return 0;
+}
+
+//DECLARE FUNCTIONS
+void turnleft()
+{
+    printf("turning left\n");
+    motor(rmotor, speed); //first argument = port#0, 2nd arg = power and direction
+    motor(lmotor, nspeed); 
+    msleep(raturn);
+    ao();  
+}
+void turnright()
+{
+    printf("turning right\n");
+    motor(lmotor, speed); //first argument = port#0, 2nd arg = power and direction
+    motor(rmotor, nspeed); 
+    msleep(raturn);
+    ao();  
+}
+void forward()
+{
+    printf("Driving forward\n");
+    motor(rmotor, 90); //first argument = port#0, 2nd arg = power and direction
+    motor(lmotor,speed); 
+    ao();   //don't want an msleep because it will stop it
+}
+
+
+
+void backward()
+{
+    printf("Driving backward\n");
+    motor(rmotor, nspeed); //first argument = port#0, 2nd arg = power and direction
+    motor(lmotor,nspeed); 
+    msleep(pause);
+    ao();   
+}
+
+void evasive()
+{
+    printf("evasive\n");
+    motor(rmotor, nspeed); //first argument = port#0, 2nd arg = power and direction
+    motor(lmotor,speed);
+    msleep(pause2);
+    
+    
+}
